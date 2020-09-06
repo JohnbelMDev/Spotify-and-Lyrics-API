@@ -1,4 +1,4 @@
-//DOMs
+//Assist by Vonds
 let input = document.getElementById('artist');
 let second = document.getElementById('song');
 let button = document.getElementsByTagName('button')
@@ -10,12 +10,12 @@ buttonTag.addEventListener('click', testApi);
 
 //get the button container
 let button_div = document.getElementById('list-of-items');
-// button.addEventListener('click', testApi)
-// buttonTag.addEventListener('click', testApi);
+
 function testApi(){
   fetch(`https://api.spotify.com/v1/search?type=album&q=%20${inputTag.value}`, {
     headers: { //pass in headers -- Authorization key
-      Authorization: 'Bearer BQDa5jrHM1CKTgUhDUsnjh1lSYepfo2_lWnFVFuxwmYXvaR0A9UI-i2iuG2f314qDDhJqS7fyBCGpw_5ajOrDHTmDZsQkDqCMLv0HAei7aRONez8fZi8HCf1y96bZOfW7F3jhzn35sYM'
+      // api will resets and will need new keys
+      Authorization: 'Bearer BQAm5BsBY6cpr4cR0F9Hmfsbc_iCi-TK9WRCgqlAF6UeJaKsph6-gTztZzY5ngQVoWZfu8nYDxxwSLYPusX5vC3paHNpLBYZHKEWt4njywTC0ru6Uq9Sv_pt9GeLwqUFHI_wUY6FxVmz'
     }
   })
   .then( //get response and parse to json
@@ -25,8 +25,7 @@ function testApi(){
 
   )
   .then(data => { //get data
-    // console.log("I'm working");
-    // console.log("data:",data.albums.items);
+
     let d = data.albums.items //get the item objects and pass it into a variables
     // console.log(data.tracks);
     for(var key in d){ //iterate through the item objects
@@ -43,24 +42,22 @@ function testApi(){
         console.log(item_button.srcElement.innerHTML.replace('- Live', ''));
         fetch(`https://api.lyrics.ovh/v1/${artist}/${item_button.srcElement.innerHTML.replace('- Live', '')}`)
 
-        .then(response => response.json())
-        .then(data => {
-          console.log(data);
+          .then(response => response.json())
+          .then(data => {
+            console.log(data);
 
-          if (data.error) {
+            if (data.error) {
               lyrics.innerHTML = data.error
-          }
-          else {
-            lyrics.innerHTML = data.lyrics
-          }
+            }
+            else {
+              lyrics.innerHTML = data.lyrics
+            }
 
+          })
         })
-      })
-    }
-  })
-  .catch(
-    error => lyrics.innerHTML = ''
-  )
-}
-
-// buttonTag.addEventListener('click', testApi);
+      }
+    })
+    .catch(
+      error => lyrics.innerHTML = ''
+    )
+  }
